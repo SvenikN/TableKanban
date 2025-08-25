@@ -1,0 +1,14 @@
+﻿@page "/table/edit/{TableId:int}"
+@inject NavigationManager NavigationManager
+@inject TableDbContext db
+@inject TableService TableService
+@inject StolbService StolbService
+@rendermode InteractiveServer
+
+<h3>Создание новой таблицы</h3>
+
+<TableForm Table="@editTable"
+           FormName="EditTableForm"
+           OnSave="HandleSave"
+           OnCancel="Cancel"
+           EditMode=true />

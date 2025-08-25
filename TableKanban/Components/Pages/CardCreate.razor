@@ -1,0 +1,18 @@
+﻿@page "/card/create/{TableId:int}"
+@inject TableDbContext db
+@inject NavigationManager NavigationManager
+@inject CardService CardService
+@inject UserService UserService
+@inject StolbService StolbService
+@rendermode InteractiveServer
+
+<h3>Создание новой карточки</h3>
+
+<CardForm Card="@newCard" 
+        Users="@users" 
+        Stolbs="@stolbs"
+        ButtonText="Create" 
+        FormName="CreateCardForm"
+        OnSave="HandleSave"
+        OnCancel="HandleCancel"
+        EditMode=false />

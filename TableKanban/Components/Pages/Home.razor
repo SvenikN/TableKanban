@@ -1,0 +1,30 @@
+﻿@page "/"
+@inject NavigationManager NavigationManager
+@inject StolbService StolbService
+@inject CardService CardService
+@inject TableService TableService
+@inject TableDbContext db
+@rendermode InteractiveServer
+
+<h1>Выбери таблицу или создай новую</h1>
+
+<main>
+    <h2>Список таблиц</h2>
+    @foreach (var table in tables)
+    {
+        if (table == null)
+        {
+            <p>У тебя пока нет таблиц, создай новую</p>   
+        }
+        else
+        {
+        <li>
+            <button type="button" class="btn btn-li" @onclick="() => OpenTableById(table.TableId)">@table.TableName</button>
+        </li>
+        }
+    }
+
+    <div>
+        <button type="button" class="btn btn-primary" @onclick="AddNewTable">Создать таблицу</button>
+    </div>
+</main>

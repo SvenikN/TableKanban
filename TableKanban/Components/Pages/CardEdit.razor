@@ -1,0 +1,25 @@
+﻿@page "/card/edit/{CardId:int}"
+@inject TableDbContext db
+@inject NavigationManager NavigationManager
+@inject CardService CardService
+@inject UserService UserService
+@inject StolbService StolbService
+@rendermode InteractiveServer
+
+<h3>Редактирование карточки</h3>
+
+@if (editCard == null)
+{
+    <p>Карточка не найдена</p>
+}
+else
+{
+    <CardForm Card="@editCard"
+              Users="@users"
+              Stolbs="@stolbs"
+              ButtonText="Update"
+              FormName="EditCardForm"
+              OnSave="HandleSave"
+              OnCancel="Cancel"
+              EditMode=true />
+}

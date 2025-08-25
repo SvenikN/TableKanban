@@ -1,0 +1,45 @@
+﻿@page "/card/{CardId:int}"
+@inject TableDbContext db
+@inject NavigationManager NavigationManager
+@inject CardService CardService
+
+@if (card == null)
+{
+    <p>Карточка не найдена</p>
+}
+else
+{
+<h3>@card.Title</h3>
+
+<main>
+    <div class="form-card">
+
+            <div>
+                <div>
+                    <h4>Название задачи</h4>
+                    <p>@card.Title</p>
+                </div>
+                
+                <div>
+                    <h4>Описание задачи</h4>
+                    <p>@card.Description</p>
+                </div>
+                
+                <div>
+                    <h4>Назначена на</h4>
+                    <p>@(card.User?.UserName ?? "None")</p>
+                </div>
+                
+                <div>
+                    <h4>Статус</h4>
+                    <p>@(card.Stolb.StolbName)</p>
+                </div>
+                
+                <div class="btn-block">
+                    <a href="/card/edit/@card.CardId" class="btn btn-primary">Редактировать</a>
+                    <button class="btn btn-secondary" @onclick="Cancel">Назад</button>
+                </div>
+            </div>
+    </div>
+</main>
+}

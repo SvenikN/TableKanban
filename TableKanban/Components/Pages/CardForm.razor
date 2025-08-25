@@ -1,0 +1,58 @@
+﻿@using Microsoft.AspNetCore.Hosting
+@inject NavigationManager NavigationManager
+@inject CardService CardService
+@inject TableDbContext db
+@rendermode InteractiveServer
+
+<EditForm Model="@Card" 
+          FormName="@FormName"
+          OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+<main>
+    <div class="form-card">
+        <div class="form-group">
+            <label for="Title">Название задачи</label>
+            <InputText id="Title"
+                           class="form-control"
+                           @bind-Value="Card.Title" />
+            <ValidationMessage For="@(() => Card.Title)" />
+        </div>
+
+        <div class="form-group">
+            <label for="Description">Описание задачи</label>
+            <InputTextArea id="Description"
+                           class="form-control"
+                           @bind-Value="Card.Description" />
+        </div>
+
+        <div class="form-group">
+            <label for="StolbId">Статус</label>
+            <InputSelect id="StolbId" class="form-control" @bind-Value="Card.StolbId">
+                <option value="">Выберите статус</option>
+                @foreach (var status in Stolbs)
+                {
+                    <option value="@status.StolbId">@status.StolbName</option>
+                }
+            </InputSelect>
+        </div>
+
+        <div class="form-group">
+            <label for="UserId">Назначить на:</label>
+            <InputSelect id="UserId" class="form-control" @bind-Value="Card.UserId">
+                <option value="">Выберите пользователя</option>
+                @foreach (var user in Users)
+                {
+                    <option value="@user.UserId">@user.UserName</option>
+                }
+            </InputSelect>
+        </div>
+
+        <div class="btn-block">
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+            <button class="btn btn-secondary" @onclick="Cancel">Отмена</button>
+        </div>
+    </div>
+</main>
+</EditForm>
