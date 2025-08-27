@@ -1,14 +1,23 @@
 ﻿@page "/table/{TableId:int}"
 @inject NavigationManager NavigationManager
-@inject StolbService StolbService
-@inject CardService CardService
-@inject TableService TableService
+@inject IStolbService StolbService
+@inject ICardService CardService
+@inject ITableService TableService
 @inject TableDbContext db
 @rendermode InteractiveServer
 
-<h3>@table.TableName</h3>
+@if (table == null)
+{
+    <p>Таблица не найдена</p>
+}
+else
+{
+<div class="d-flex align-items-center justify-content-between">
+    <div></div>
+    <h3>@table.TableName</h3>
 
-<button type="button" class="btn btn-primary" @onclick="() => AddNewCard(table.TableId)">Создать карточку</button>
+    <button type="button" class="btn btn-primary" @onclick="() => AddNewCard(table.TableId)">Создать карточку</button>
+</div>
 
 <div class="container-fluid table-container">
         <div class="row">
@@ -34,5 +43,4 @@
             }
         </div>
     </div>
-
-
+}

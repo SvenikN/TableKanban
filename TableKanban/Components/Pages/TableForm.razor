@@ -1,70 +1,78 @@
 ﻿@inject NavigationManager NavigationManager
 @inject TableDbContext db
-@inject TableService TableService
+@inject ITableService TableService
+@rendermode InteractiveServer
 
-<EditForm Model="@Table" 
-          FormName="@FormName"
+<EditForm Model="@FormTable"
           OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
-<main>
-    <div class="form-table">
-        <div class="form-group">
-            <label for="TableName">Название таблицы</label>
-            <InputText id="TableName"
-                       class="form-control"
-                       @bind-Value="Table.TableName" />
-            <ValidationMessage For="@(() => Table.TableName)" />
-        </div>
-
-        <div class="form-group">
-            <label for="Description">Описание таблицы</label>
-            <InputTextArea id="Description"
+    <main>
+        <div class="form-table">
+            <div class="form-group">
+                <label for="TableName">Название таблицы</label>
+                <InputText id="TableName"
                            class="form-control"
-                           @bind-Value="Table.Description" />
-        </div>
+                               @bind-Value="FormTable.TableName" />
+                    <ValidationMessage For="@(() => FormTable.TableName)" />
+            </div>
 
-        <div class="form-group">
-        @foreach (var stolb in FormStolbs)
-        {
-            <tr>
-                <td>
-                    <div class="from-group">
-                        <label for="StolbName">Название столбца</label>
-                        <InputText id="StolbName" class="form-control" @bind-Value="stolb.StolbName"></InputText>
-                    </div>
-                </td>
-                <td>
-                    <button type="button" class="btn btn-outline-danger btn-sm" @onclick="() => RemoveStolb(stolb)">✕</button>
-                </td>
-            </tr>
-        }
-        </div>
+            <div class="form-group">
+                <label for="Description">Описание таблицы</label>
+                <InputTextArea id="Description"
+                               class="form-control"
+                                   @bind-Value="FormTable.Description" />
+            </div>
 
-        <div class="btn-block">
-            <button type="button" class="btn btn-primary" @onclick=AddInputStolbs>Добавить столбец</button>
-        </div>
-        
+            <div class="form-group">
+                @foreach (var stolb in FormTable.Stolbs)
+                {
+                    <tr>
+                        <td>
+                            <div class="from-group">
+                                <label for="StolbName">Название столбца</label>
+                                <InputText id="StolbName" class="form-control" @bind-Value="stolb.StolbName"></InputText>
+                            </div>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-outline-danger btn-sm" @onclick="() => RemoveStolb(stolb)">✕</button>
+                        </td>
+                    </tr>
+                }
+                <div class="btn-block">
+                    <button type="button" class="btn btn-primary" @onclick=AddInputStolbs>Добавить столбец</button>
+                </div>
+            </div>
+       
+            <div class="form-group">
+                @foreach (var user in FormTable.FormUsers)
+                {
+                    <tr>
+                        <td>
+                            <label for="UserEmail">Email пользователя</label>
+                            <InputText id="UserEmail" class="form-control" @bind-Value="user.Email"></InputText>
+                            <ValidationMessage For="@(() => user.Email)" />
+                        </td>
+                        <td>
+                            <label for="UserName">Имя пользователя</label>
+                            <InputText id="UserName" class="form-control" @bind-Value="user.UserName"></InputText>
+                            <ValidationMessage For="@(() => user.UserName)" />
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-outline-danger btn-sm" @onclick="() => RemoveUser(user)">✕</button>
+                        </td>
+                    </tr>
+                }
+                <div class="btn-block">
+                    <button type="button" class="btn btn-primary" @onclick=AddInputUser>Добавить пользователя</button>
+                </div>
+            </div>
 
-        @* <p>Добавить пользователей</p>
-        @foreach (var user in FormUsers)
-            {
-                  <tr>
-                 <td>
-                     <label for="UserEmail">Email пользователя</label>
-                     <InputText id="UserEmail" class="form-control" @bind-Value="user.Email"></InputText>
-                 </td>
-                <td>
-                    <button type="button" class="btn btn-outline-danger btn-sm" @onclick="() => RemoveUser(user)">✕</button>
-                </td>
-             </tr>  
-            } *@
-
-        <div class="btn-block">
-            <button type="submit" class="btn btn-primary">Сохранить</button>
-            <button type="button" class="btn btn-secondary" @onclick="Cancel">Отмена</button>
+            <div class="btn-block">
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+                <button type="button" class="btn btn-secondary" @onclick="Cancel">Отмена</button>
+            </div>
         </div>
-    </div>
-</main>
+    </main>
 </EditForm>

@@ -1,9 +1,9 @@
 ﻿@page "/card/edit/{CardId:int}"
 @inject TableDbContext db
 @inject NavigationManager NavigationManager
-@inject CardService CardService
-@inject UserService UserService
-@inject StolbService StolbService
+@inject ICardService CardService
+@inject IUserService UserService
+@inject IStolbService StolbService
 @rendermode InteractiveServer
 
 <h3>Редактирование карточки</h3>

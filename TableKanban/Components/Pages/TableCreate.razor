@@ -1,13 +1,12 @@
 ﻿@page "/table/create"
 @inject NavigationManager NavigationManager
 @inject TableDbContext db
-@inject TableService TableService
+@inject ITableService TableService
 @rendermode InteractiveServer
 
 <h3>Создание новой таблицы</h3>
 
-<TableForm Table="@newTable"
-          FormName="CreateTableForm"
+<TableForm FormTable="@newTable"
           OnSave="HandleSave"
           OnCancel="HandleCansel"
           EditMode=false />

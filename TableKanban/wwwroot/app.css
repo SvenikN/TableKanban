@@ -179,6 +179,9 @@ margin: 10px;
 }
 
 .card-list {
+    background-color: lightgoldenrodyellow;
+    width: 150px;
+    height: 150px;
     padding: 0;
     margin: 0;
 }
@@ -188,7 +191,11 @@ margin: 10px;
 }
 
 .card-list a {
-    color: #333;
+    color: #3b2b2b;
     text-decoration: none;
+}
+
+.d-flex {
+    margin-bottom: 15px;
 }
 

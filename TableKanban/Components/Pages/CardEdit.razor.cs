@@ -1,24 +1,46 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TableKanban.Model;
-using TableKanban.Services;
 
 namespace TableKanban.Components.Pages
 {
+  /// <summary>
+  /// Компонента для радектирования карточки.
+  /// </summary>
   public partial class CardEdit
   {
+    #region Поля и свойства
+
+    /// <summary>
+    /// ИД карточки.
+    /// </summary>
     [Parameter]
     public int CardId { get; set; }
 
+    /// <summary>
+    /// Карточка.
+    /// </summary>
     public Card? editCard;
 
+    /// <summary>
+    /// Список пользователей.
+    /// </summary>
     public List<User> users;
 
+    /// <summary>
+    /// Список столбцов.
+    /// </summary>
     public List<Stolb> stolbs;
 
+    #endregion
+
+    #region Базовый класс
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
     protected override async Task OnInitializedAsync()
     {
       editCard = await CardService.GetCardAsync(CardId);
@@ -31,10 +53,13 @@ namespace TableKanban.Components.Pages
       { }
     }
 
+    #endregion]
+
+    #region Методы
+
     /// <summary>
-    /// Редактирование карточки.
+    /// Сохранить.
     /// </summary>
-    /// <returns>Новая карточка.</returns>
     public async Task HandleSave()
     {
       await CardService.UpdateCardAsync(editCard);
@@ -48,5 +73,7 @@ namespace TableKanban.Components.Pages
     {
       NavigationManager.NavigateTo($"/table/{editCard.TableId}");
     }
+
+    #endregion
   }
 }

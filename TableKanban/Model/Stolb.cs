@@ -3,10 +3,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TableKanban.Model
 {
+  /// <summary>
+  /// Столбцы.
+  /// </summary>
   public class Stolb
   {
     /// <summary>
-    /// ИД столлца.
+    /// ИД столбца.
     /// </summary>
     public int StolbId { get; set; }
 
@@ -41,7 +44,7 @@ namespace TableKanban.Model
     public Table Table { get; set; } = null!;
 
     /// <summary>
-    /// Стики столбца.
+    /// Карточки столбца.
     /// </summary>
     public ICollection<Card> Cards { get; set; } = [];
   }

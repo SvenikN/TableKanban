@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TableKanban.Components;
 using TableKanban.Services;
+using TableKanban.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,10 +23,10 @@ builder.Services.Configure<FormOptions>(options =>
 });
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddScoped<CardService>();
-builder.Services.AddScoped<TableService>();
-builder.Services.AddScoped<UserService>();
-builder.Services.AddScoped<StolbService>();
+builder.Services.AddScoped<ICardService, CardService>();
+builder.Services.AddScoped<ITableService, TableService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IStolbService, StolbService>();
 
 var app = builder.Build();
 

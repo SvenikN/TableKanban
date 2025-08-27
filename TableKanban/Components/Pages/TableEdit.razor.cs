@@ -2,35 +2,72 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TableKanban.Model;
-using TableKanban.Services;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using static TableKanban.Model.TableUserFormModel;
 
 namespace TableKanban.Components.Pages
 {
+  /// <summary>
+  /// Компонента для редактирования таблицы.
+  /// </summary>
   public partial class TableEdit
   {
+    #region Поля и свойства
+
+    /// <summary>
+    /// ИД таблицы, получает из маршрута.
+    /// </summary>
     [Parameter]
     public int TableId { get; set; }
 
+    /// <summary>
+    /// Данные для создания таблицы.
+    /// </summary>
+    public TableFormModel tableForm;
+
+    /// <summary>
+    /// Таблица, которая будет отображаться.
+    /// </summary>
     public Table editTable;
 
-    public List<Stolb> stolbs { get; set; }
+    #endregion
 
-    protected override void OnInitialized()
+    #region Базовый класс
+
+    ///<inheritdoc/>
+    protected override async Task OnInitializedAsync()
     {
       editTable = TableService.GetTableById(TableId);
+
       if (editTable != null)
       {
-        stolbs = StolbService.GetStolbsByTableId(TableId);
+        tableForm.TableName = editTable.TableName;
+        tableForm.Description = editTable.Description;
+
+        tableForm.FormUsers = await TableService.GetUsersForTableAsync(TableId);
       }
       else
-      { }
+      {
+      }
     }
 
+    #endregion
+
+    #region Методы
+
+    /// <summary>
+    /// Сохранить.
+    /// </summary>
     public async Task HandleSave()
     {
-      await TableService.UpdateTableAsync(editTable);
-      NavigationManager.NavigateTo($"/table/{TableId}");
+      if (editTable != null)
+      {
+        editTable.TableName = tableForm.TableName;
+        editTable.Description = tableForm.Description;
+
+        await TableService.UpdateTableAsync(editTable, tableForm.FormUsers);
+        NavigationManager.NavigateTo($"/table/{TableId}");
+      }
+      else { }
     }
 
     /// <summary>
@@ -40,5 +77,7 @@ namespace TableKanban.Components.Pages
     {
       NavigationManager.NavigateTo($"/table/{TableId}");
     }
+
+    #endregion
   }
 }

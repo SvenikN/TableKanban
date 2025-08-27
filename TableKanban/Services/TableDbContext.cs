@@ -23,7 +23,7 @@ namespace TableKanban.Services
     public DbSet<Stolb> Stolbs { get; set; }
 
     /// <summary>
-    /// Тикет.
+    /// Карточка.
     /// </summary>
     public DbSet<Card> Cards { get; set; }
 
@@ -35,7 +35,7 @@ namespace TableKanban.Services
     /// <summary>
     /// Связь таблицы с пользователями
     /// </summary>
-    //public DbSet<TableUser> TableUsers { get; set; }
+    public DbSet<TableUser> TableUsers { get; set; }
 
     #endregion
 
@@ -67,17 +67,17 @@ namespace TableKanban.Services
         .HasForeignKey(c => c.UserId)
         .OnDelete(DeleteBehavior.SetNull);
 
-      //modelBuilder.Entity<TableUser>()
-      //  .HasOne(tu => tu.User)
-      //  .WithMany(u => u.TableUsers)
-      //  .HasForeignKey(tu => tu.UserId)
-      //  .OnDelete(DeleteBehavior.NoAction);
+      modelBuilder.Entity<TableUser>()
+        .HasOne(tu => tu.User)
+        .WithMany(u => u.TableUsers)
+        .HasForeignKey(tu => tu.UserId)
+        .OnDelete(DeleteBehavior.NoAction);
 
-      //modelBuilder.Entity<TableUser>()
-      //  .HasOne(tu => tu.Table)
-      //  .WithMany(t => t.TableUsers)
-      //  .HasForeignKey(tu => tu.TableId)
-      //  .OnDelete(DeleteBehavior.Restrict);
+      modelBuilder.Entity<TableUser>()
+        .HasOne(tu => tu.Table)
+        .WithMany(t => t.TableUsers)
+        .HasForeignKey(tu => tu.TableId)
+        .OnDelete(DeleteBehavior.Restrict);
     }
 
     #endregion

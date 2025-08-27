@@ -1,7 +1,8 @@
 ﻿@page "/card/{CardId:int}"
 @inject TableDbContext db
 @inject NavigationManager NavigationManager
-@inject CardService CardService
+@inject ICardService CardService
+@rendermode InteractiveServer
 
 @if (card == null)
 {
@@ -34,11 +35,17 @@ else
                     <h4>Статус</h4>
                     <p>@(card.Stolb.StolbName)</p>
                 </div>
-                
-                <div class="btn-block">
-                    <a href="/card/edit/@card.CardId" class="btn btn-primary">Редактировать</a>
-                    <button class="btn btn-secondary" @onclick="Cancel">Назад</button>
+
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="btn-block">
+                        <a href="/card/edit/@card.CardId" class="btn btn-primary">Редактировать</a>
+                        <button class="btn btn-secondary" @onclick="Cancel">Назад</button>
+                    </div>
+                    <div>
+                        <button class="btn btn-secondary" @onclick="DeleteCard">Удалить</button>
+                    </div>
                 </div>
+
             </div>
     </div>
 </main>

@@ -6,8 +6,9 @@ namespace TableKanban.Interfaces
 {
   public interface ICardService
   {
-    Task<List<Card>> GetCardsAsync();
-    Task<Card> GetCardAsync(int id);
+    
+    List<Card> GetCardsByTableId(int tableId);
+    Task<Card?> GetCardAsync(int id);
     Task CreateCardAsync(Card card);
     Task UpdateCardAsync(Card card);
     Task DeleteCardAsync(int id);

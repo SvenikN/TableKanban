@@ -4,45 +4,51 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TableKanban.Model
 {
+  /// <summary>
+  /// Карточки.
+  /// </summary>
   public class Card
   {
     /// <summary>
-    /// ИД таски.
+    /// ИД карточки.
     /// </summary>
     public int CardId { get; set; }
 
     /// <summary>
-    /// ИД столбца, в котором находится стик.
+    /// ИД столбца, в котором находится карточка.
     /// </summary>
     [ForeignKey("Stolb")]
     public int StolbId { get; set; }
 
     /// <summary>
-    /// ИД пользователя, на которого назначили таску.
+    /// ИД пользователя, на которого назначили карточку.
     /// </summary>
     public int? UserId { get; set; }
 
+    /// <summary>
+    /// ИД таблицы, в которой находится карточка.
+    /// </summary>
     [ForeignKey("Table")]
     public int TableId { get; set; }
 
     /// <summary>
-    /// Название таски.
+    /// Название карточки.
     /// </summary>
     [Required(ErrorMessage = "Название обязательно")]
     public string Title { get; set; } = string.Empty;
 
     /// <summary>
-    /// Описание таски.
+    /// Описание карточки.
     /// </summary>
     public string? Description { get; set; }
 
     /// <summary>
-    /// Статус задачи.
+    /// Статус карточки.
     /// </summary>
     public string? Status { get; set; }
 
     /// <summary>
-    /// Дата создания таски.
+    /// Дата создания карточки.
     /// </summary>
     public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
 
@@ -56,6 +62,9 @@ namespace TableKanban.Model
     /// </summary>
     public User? User { get; set; } = null!;
 
+    /// <summary>
+    /// Навигационное свойство связанной таблицы.
+    /// </summary>
     public Table Table { get; set; } = null!;
   }
 }
