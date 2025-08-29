@@ -10,18 +10,36 @@
 
 <main>
     <h2>Список таблиц</h2>
-    @foreach (var table in tables)
+
+    @if (tables == null)
     {
-        if (table == null)
-        {
-            <p>У тебя пока нет таблиц, создай новую</p>   
-        }
-        else
-        {
-        <li>
-            <button type="button" class="btn btn-li" @onclick="() => OpenTableById(table.TableId)">@table.TableName</button>
-        </li>
-        }
+    <p>У тебя пока нет таблиц, создай новую</p>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table">
+
+            @foreach (var table in tables)
+            {
+                <tr>
+                    <td>
+                        <button type="button" class="btn btn-li" @onclick="() => OpenTableById(table.TableId)">@table.TableName</button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-primary" @onclick="() => OpenEditTableById(table.TableId)">Редактировать</button>
+                    </td>
+                    <td>
+                            <button type="button" class="btn btn-secondary" @onclick="() => DeleteTableById(table.TableId)">Удалить</button>
+                            @if (tableErrorMessages.ContainsKey(table.TableId))
+                            {
+                                <div class="validation-message alert alert-danger">@tableErrorMessages[table.TableId]</div>
+                            }
+                    </td>
+                </tr>
+            }
+            </table>
+        </div>
     }
 
     <div>

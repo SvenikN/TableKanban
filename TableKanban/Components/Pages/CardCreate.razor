@@ -11,8 +11,11 @@
 <CardForm Card="@newCard" 
         Users="@users" 
         Stolbs="@stolbs"
-        ButtonText="Create" 
-        FormName="CreateCardForm"
         OnSave="HandleSave"
         OnCancel="HandleCancel"
         EditMode=false />
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger">@errorMessage</div>
+}

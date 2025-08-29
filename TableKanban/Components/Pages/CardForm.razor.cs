@@ -43,18 +43,6 @@ namespace TableKanban.Components.Pages
     public EventCallback OnCancel { get; set; }
 
     /// <summary>
-    /// 
-    /// </summary>
-    [Parameter]
-    public string FormName { get; set; } = "CardForm";
-
-    /// <summary>
-    /// Текст на кнопке.
-    /// </summary>
-    [Parameter]
-    public string ButtonText { get; set; } = "Save";
-
-    /// <summary>
     /// Признак того, что таблица открыта на редактирование.
     /// </summary>
     [Parameter]

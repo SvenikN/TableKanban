@@ -7,7 +7,20 @@
 
 <h3>Редактирование таблицы</h3>
 
+@if (editTable == null)
+{
+    <p>Таблица не найдена</p>
+}
+else
+{
+
 <TableForm FormTable="@tableForm"
            OnSave="HandleSave"
            OnCancel="Cancel"
            EditMode=true />
+
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="alert alert-danger">@errorMessage</div>
+    }
+}

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Components;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using TableKanban.Model;
 
@@ -21,17 +20,7 @@ namespace TableKanban.Components.Pages
     /// <summary>
     /// Таблица, которая будет отображаться.
     /// </summary>
-    public Table table { get; set; }
-
-    /// <summary>
-    /// Список столбцов.
-    /// </summary>
-    public List<Stolb> columns = new List<Stolb>();
-
-    /// <summary>
-    /// Список пользователей.
-    /// </summary>
-    public List<Card> cards = new List<Card>();
+    public Table? table { get; set; }
 
     #endregion
 
@@ -40,9 +29,7 @@ namespace TableKanban.Components.Pages
     /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
-      table = TableService.GetTableById(TableId);
-      columns = StolbService.GetStolbsByTableId(TableId);
-      cards = CardService.GetCardsByTableId(TableId);
+      table = await TableService.GetTableByIdAsync(TableId);
     }
 
     #endregion

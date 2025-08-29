@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using System;
 using System.Threading.Tasks;
 using static TableKanban.Model.TableUserFormModel;
 
@@ -16,6 +17,11 @@ namespace TableKanban.Components.Pages
     /// </summary>
     public TableFormModel newTable = new TableFormModel();
 
+    /// <summary>
+    /// Сообщение об ошибке.
+    /// </summary>
+    private string? errorMessage;
+
     #endregion
 
     #region Методы
@@ -25,8 +31,18 @@ namespace TableKanban.Components.Pages
     /// </summary>
     private async Task HandleSave()
     {
-      await TableService.CreateTableAsync(newTable);
-      NavigationManager.NavigateTo($"/");
+      errorMessage = null;
+
+      try
+      {
+        await TableService.CreateTableAsync(newTable);
+        NavigationManager.NavigateTo($"/");
+      }
+      catch (Exception ex)
+      {
+        errorMessage = ex.Message;
+      }
+      StateHasChanged();
     }
 
     /// <summary>

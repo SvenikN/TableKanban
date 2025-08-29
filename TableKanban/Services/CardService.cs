@@ -31,18 +31,11 @@ namespace TableKanban.Services
     /// <returns>Список карточек.</returns>
     public List<Card> GetCardsByTableId(int tableId)
     {
-      try
-      {
         return db.Cards
             .Include(c => c.Stolb)
             .Include(c => c.User)
             .Where(c => c.TableId == tableId)
             .ToList();
-      }
-      catch
-      {
-        return new List<Card>();
-      }
     }
 
     /// <summary>
@@ -52,19 +45,14 @@ namespace TableKanban.Services
     /// <returns>Данные карточки.</returns>
     public async Task<Card?> GetCardAsync(int id)
     {
-      try
-      {
-        Card? Card = await db.Cards
+        var card = await db.Cards
               .Include(c => c.Stolb)
               .Include(c => c.User)
               .FirstOrDefaultAsync(c => c.CardId == id);
 
-        return Card;
-      }
-      catch
-      {
-        return null;
-      }
+        if (card == null) return null;
+
+        return card;
     }
 
     /// <summary>
@@ -73,8 +61,24 @@ namespace TableKanban.Services
     /// <param name="card">Данные карточки.</param>
     public async Task CreateCardAsync(Card card)
     {
-      db.Cards.Add(card);
-      await db.SaveChangesAsync();
+      try
+      {
+        if (string.IsNullOrEmpty(card.Title))
+        {
+          throw new InvalidOperationException("Заполни название карточки.");
+        }
+        if (card.StolbId == 0)
+        {
+          throw new InvalidOperationException("Выбери статус карточки.");
+        }
+
+        db.Cards.Add(card);
+        await db.SaveChangesAsync();
+      }
+      catch (Exception)
+      {
+        throw;
+      }
     }
 
     /// <summary>
@@ -83,16 +87,32 @@ namespace TableKanban.Services
     /// <param name="card">Обновленные данные карточки.</param>
     public async Task UpdateCardAsync(Card card)
     {
-      var existingCard = await db.Cards.FindAsync(card.CardId);
-
-      if (existingCard != null)
+      try
       {
-        existingCard.Title = card.Title;
-        existingCard.Description = card.Description;
-        existingCard.StolbId = card.StolbId;
-        existingCard.UserId = card.UserId;
+        if (string.IsNullOrEmpty(card.Title))
+        {
+          throw new InvalidOperationException("Заполни название карточки.");
+        }
+        if (card.StolbId == 0)
+        {
+          throw new InvalidOperationException("Выбери статус карточки.");
+        }
 
-        await db.SaveChangesAsync();
+        var existingCard = await db.Cards.FindAsync(card.CardId);
+
+        if (existingCard != null)
+        {
+          existingCard.Title = card.Title;
+          existingCard.Description = card.Description;
+          existingCard.StolbId = card.StolbId;
+          existingCard.UserId = card.UserId;
+
+          await db.SaveChangesAsync();
+        }
+      }
+      catch (Exception)
+      {
+        throw;
       }
     }
 
@@ -102,11 +122,23 @@ namespace TableKanban.Services
     /// <param name="id">ИД карточки.</param>
     public async Task DeleteCardAsync(int id)
     {
-      var card = await db.Cards.FindAsync(id);
-      if (card != null)
+      try
       {
-        db.Cards.Remove(card);
-        await db.SaveChangesAsync();
+        var card = await db.Cards.FindAsync(id);
+
+        if (card != null)
+        {
+          db.Cards.Remove(card);
+          await db.SaveChangesAsync();
+        }
+      }
+      catch (InvalidOperationException ex)
+      {
+        throw;
+      }
+      catch (Exception ex)
+      {
+        throw new Exception($"Произошла ошибка при удалении таблицы: {ex.Message}", ex);
       }
     }
   }

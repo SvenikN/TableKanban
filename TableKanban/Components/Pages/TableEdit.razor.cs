@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
-using System.Collections.Generic;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 using TableKanban.Model;
 using static TableKanban.Model.TableUserFormModel;
@@ -22,12 +23,17 @@ namespace TableKanban.Components.Pages
     /// <summary>
     /// Данные для создания таблицы.
     /// </summary>
-    public TableFormModel tableForm;
+    public TableFormModel tableForm = new TableFormModel();
 
     /// <summary>
     /// Таблица, которая будет отображаться.
     /// </summary>
-    public Table editTable;
+    public Table? editTable;
+
+    /// <summary>
+    /// Сообщение об ошибке.
+    /// </summary>
+    private string? errorMessage;
 
     #endregion
 
@@ -36,17 +42,26 @@ namespace TableKanban.Components.Pages
     ///<inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
-      editTable = TableService.GetTableById(TableId);
-
-      if (editTable != null)
+      try
       {
-        tableForm.TableName = editTable.TableName;
-        tableForm.Description = editTable.Description;
+        editTable = await TableService.GetTableByIdAsync(TableId);
 
-        tableForm.FormUsers = await TableService.GetUsersForTableAsync(TableId);
+        if (editTable != null)
+        {
+          tableForm.TableName = editTable.TableName;
+          tableForm.Description = editTable.Description!;
+          tableForm.Stolbs = editTable.Stolbs.ToList();
+
+          tableForm.FormUsers = await TableService.GetUsersForTableAsync(TableId);
+        }
+        else
+        {
+          errorMessage = "Таблицы не существует.";
+        }
       }
-      else
+      catch (Exception ex)
       {
+        errorMessage = ex.Message; 
       }
     }
 
@@ -59,15 +74,24 @@ namespace TableKanban.Components.Pages
     /// </summary>
     public async Task HandleSave()
     {
-      if (editTable != null)
+      try 
       {
         editTable.TableName = tableForm.TableName;
         editTable.Description = tableForm.Description;
+        editTable.Stolbs = tableForm.Stolbs;
 
         await TableService.UpdateTableAsync(editTable, tableForm.FormUsers);
         NavigationManager.NavigateTo($"/table/{TableId}");
       }
-      else { }
+      catch (InvalidOperationException ex)
+      {
+        errorMessage = ex.Message;
+      }
+      catch (Exception ex)
+      {
+        errorMessage = ex.Message;
+      }
+      StateHasChanged();
     }
 
     /// <summary>

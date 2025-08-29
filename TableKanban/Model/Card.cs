@@ -18,6 +18,7 @@ namespace TableKanban.Model
     /// ИД столбца, в котором находится карточка.
     /// </summary>
     [ForeignKey("Stolb")]
+    [Required(ErrorMessage = "Статус обязателен")]
     public int StolbId { get; set; }
 
     /// <summary>

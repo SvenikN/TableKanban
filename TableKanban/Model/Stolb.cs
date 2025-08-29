@@ -23,7 +23,7 @@ namespace TableKanban.Model
     /// </summary>
     [Display(Name = "Название столбца")]
     [MaxLength(20)]
-    [Required(ErrorMessage = "Название обязательно")]
+    [Required(ErrorMessage = "Название столбца обязательно.")]
     public string StolbName { get; set; } = string.Empty;
 
     /// <summary>

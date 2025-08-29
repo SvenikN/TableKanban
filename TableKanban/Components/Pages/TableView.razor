@@ -13,7 +13,7 @@
 else
 {
 <div class="d-flex align-items-center justify-content-between">
-    <div></div>
+    <div><a href="/">Мои таблицы</a></div>
     <h3>@table.TableName</h3>
 
     <button type="button" class="btn btn-primary" @onclick="() => AddNewCard(table.TableId)">Создать карточку</button>
@@ -22,21 +22,23 @@ else
 <div class="container-fluid table-container">
         <div class="row">
 
-            @foreach (var col in columns)
+            @foreach (var stolb in table.Stolbs)
             {
             <div class="col-md-3 column-container">
                 <div class="heading column-heading">
-                    <h4>@col.StolbName</h4>
+                        <h4>@stolb.StolbName</h4>
                 </div>
                     
-                <div class="card-list">
-                    @foreach (var card in cards.Where(c => c.StolbId == col.StolbId))
+                <div>
+                    @foreach (var card in table.Cards.Where(c => c.StolbId == stolb.StolbId))
                     {
-                        <p><a href="/card/@card.CardId">@card.Title</a></p>
-                        @if (card.User != null)
-                        {
-                            <p>@card.User.UserName</p>
-                        }
+                        <div class="card-list">
+                            <p><a href="/card/@card.CardId">@card.Title</a></p>
+                            @if (card.User != null)
+                            {
+                                <p>@card.User.UserName</p>
+                            }
+                        </div>
                     }
                 </div>
             </div>

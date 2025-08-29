@@ -68,16 +68,19 @@ namespace TableKanban.Services
         .OnDelete(DeleteBehavior.SetNull);
 
       modelBuilder.Entity<TableUser>()
+       .HasKey(tu => new { tu.TableId, tu.UserId });
+
+      modelBuilder.Entity<TableUser>()
         .HasOne(tu => tu.User)
         .WithMany(u => u.TableUsers)
         .HasForeignKey(tu => tu.UserId)
-        .OnDelete(DeleteBehavior.NoAction);
+        .OnDelete(DeleteBehavior.Restrict);
 
       modelBuilder.Entity<TableUser>()
         .HasOne(tu => tu.Table)
         .WithMany(t => t.TableUsers)
         .HasForeignKey(tu => tu.TableId)
-        .OnDelete(DeleteBehavior.Restrict);
+        .OnDelete(DeleteBehavior.Cascade);
     }
 
     #endregion

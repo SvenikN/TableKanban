@@ -17,9 +17,12 @@ else
     <CardForm Card="@editCard"
               Users="@users"
               Stolbs="@stolbs"
-              ButtonText="Update"
-              FormName="EditCardForm"
               OnSave="HandleSave"
               OnCancel="Cancel"
               EditMode=true />
+
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="alert alert-danger">@errorMessage</div>
+    }
 }

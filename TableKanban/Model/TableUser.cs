@@ -6,11 +6,6 @@
   public class TableUser
   {
     /// <summary>
-    /// ИД.
-    /// </summary>
-    public int TableUserId { get; set; }
-
-    /// <summary>
     /// ИД таблицы.
     /// </summary>
     public int TableId { get; set; }
@@ -33,6 +28,6 @@
     /// <summary>
     /// Роль пользователя в таблице.
     /// </summary>
-    public string Role { get; set; }
+    public string? Role { get; set; }
   }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TableKanban.Model;
@@ -33,6 +34,11 @@ namespace TableKanban.Components.Pages
     /// </summary>
     public List<Stolb> stolbs = new();
 
+    /// <summary>
+    /// Сообщение об ошибке.
+    /// </summary>
+    private string? errorMessage;
+
     #endregion
 
     #region Базовый класс
@@ -57,8 +63,22 @@ namespace TableKanban.Components.Pages
     /// </summary>
     private async Task HandleSave()
     {
-      await CardService.CreateCardAsync(newCard);
-      NavigationManager.NavigateTo($"/table/{TableId}");
+      errorMessage = null!;
+
+      try
+      {
+        await CardService.CreateCardAsync(newCard);
+        NavigationManager.NavigateTo($"/table/{TableId}");
+      }
+      catch (InvalidOperationException ex)
+      {
+        errorMessage = ex.Message;
+      }
+      catch (Exception ex)
+      {
+        errorMessage = ex.Message;
+      }
+      StateHasChanged();
     }
 
     /// <summary>

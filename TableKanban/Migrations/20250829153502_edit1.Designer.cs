@@ -12,8 +12,8 @@ using TableKanban.Services;
 namespace TableKanban.Migrations
 {
     [DbContext(typeof(TableDbContext))]
-    [Migration("20250822205539_edit3")]
-    partial class edit3
+    [Migration("20250829153502_edit1")]
+    partial class edit1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,6 +49,7 @@ namespace TableKanban.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int?>("UserId")
@@ -120,6 +121,24 @@ namespace TableKanban.Migrations
                     b.ToTable("Tables");
                 });
 
+            modelBuilder.Entity("TableKanban.Model.TableUser", b =>
+                {
+                    b.Property<int>("TableId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Role")
+                        .HasColumnType("text");
+
+                    b.HasKey("TableId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("TableUsers");
+                });
+
             modelBuilder.Entity("TableKanban.Model.User", b =>
                 {
                     b.Property<int>("UserId")
@@ -183,6 +202,25 @@ namespace TableKanban.Migrations
                     b.Navigation("Table");
                 });
 
+            modelBuilder.Entity("TableKanban.Model.TableUser", b =>
+                {
+                    b.HasOne("TableKanban.Model.Table", "Table")
+                        .WithMany("TableUsers")
+                        .HasForeignKey("TableId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TableKanban.Model.User", "User")
+                        .WithMany("TableUsers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Table");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("TableKanban.Model.Stolb", b =>
                 {
                     b.Navigation("Cards");
@@ -193,11 +231,15 @@ namespace TableKanban.Migrations
                     b.Navigation("Cards");
 
                     b.Navigation("Stolbs");
+
+                    b.Navigation("TableUsers");
                 });
 
             modelBuilder.Entity("TableKanban.Model.User", b =>
                 {
                     b.Navigation("Cards");
+
+                    b.Navigation("TableUsers");
                 });
 #pragma warning restore 612, 618
         }

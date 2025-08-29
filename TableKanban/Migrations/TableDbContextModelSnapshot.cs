@@ -120,25 +120,16 @@ namespace TableKanban.Migrations
 
             modelBuilder.Entity("TableKanban.Model.TableUser", b =>
                 {
-                    b.Property<int>("TableUserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("TableUserId"));
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<int>("TableId")
                         .HasColumnType("integer");
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
-                    b.HasKey("TableUserId");
+                    b.Property<string>("Role")
+                        .HasColumnType("text");
 
-                    b.HasIndex("TableId");
+                    b.HasKey("TableId", "UserId");
 
                     b.HasIndex("UserId");
 
@@ -213,13 +204,13 @@ namespace TableKanban.Migrations
                     b.HasOne("TableKanban.Model.Table", "Table")
                         .WithMany("TableUsers")
                         .HasForeignKey("TableId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("TableKanban.Model.User", "User")
                         .WithMany("TableUsers")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Table");

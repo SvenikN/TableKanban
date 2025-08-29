@@ -48,12 +48,16 @@ namespace TableKanban.Model
       /// </summary>
       [Required(ErrorMessage = "Email пользователя обязателен")]
       [EmailAddress(ErrorMessage = "Некорректный формат Email")]
+      [Display(Name = "Email")]
+      [MaxLength(100)]
       public string Email { get; set; } = string.Empty;
 
       /// <summary>
       /// Имя пользователя.
       /// </summary>
       [Required(ErrorMessage = "Имя пользователя обязательно")]
+      [Display(Name = "Имя")]
+      [MaxLength(50)]
       public string UserName { get; set; } = string.Empty;
     }
   }

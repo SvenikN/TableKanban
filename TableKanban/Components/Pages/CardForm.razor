@@ -5,7 +5,6 @@
 @rendermode InteractiveServer
 
 <EditForm Model="@Card" 
-          FormName="@FormName"
           OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
@@ -34,8 +33,10 @@
                 @foreach (var status in Stolbs)
                 {
                     <option value="@status.StolbId">@status.StolbName</option>
+                    <ValidationMessage For="@(() => status.StolbName)"></ValidationMessage>
                 }
             </InputSelect>
+            
         </div>
 
         <div class="form-group">

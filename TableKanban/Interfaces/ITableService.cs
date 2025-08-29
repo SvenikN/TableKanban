@@ -7,14 +7,15 @@ namespace TableKanban.Interfaces
 {
   public interface ITableService
   {
-    List<Table> GetListTable();
+    Task<List<Table>?> GetListTableAsync();
 
-    Table? GetTableById(int tableId);
+    Task<Table?> GetTableByIdAsync(int tableId);
 
     Task CreateTableAsync(TableFormModel model);
 
     Task UpdateTableAsync(Table table, List<UserModel> formUsers);
 
     Task<List<UserModel>> GetUsersForTableAsync(int tableId);
+    Task DeleteTableAsync(int tableId);
   }
 }
